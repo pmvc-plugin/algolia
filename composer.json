@@ -1,0 +1,23 @@
+{
+    "name": "pmvc-plugin/algolia",
+    "description": "PMVC Algolia plugin",
+    "type": "library",
+    "homepage": "https://github.com/pmvc/pmvc",
+    "keywords": ["algolia", "pmvc", "plug-in"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hill",
+            "email": "hill@kimo.com"
+        }
+    ],
+    "require": {
+        "pmvc/pmvc": "*",
+        "pmvc-plugin/guid": "*",
+        "pmvc-plugin/curl": "*",
+        "pmvc-plugin/url": "*",
+        "pmvc-plugin/dotenv": "*"
+
+    },
+    "minimum-stability": "dev"
+}

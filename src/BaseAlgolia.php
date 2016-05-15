@@ -78,6 +78,9 @@ class BaseAlgolia implements \ArrayAccess
         $url->set($this->groupId);
         $url->set($k);
         $doc = ['doc'=>$v];
+        if (isset($v['_geoloc'])) {
+            $doc['_geoloc'] = $v['_geoloc'];
+        }
         $command = $this->getCommand(
             'PUT',
             $this->getPost($doc)
@@ -96,16 +99,19 @@ class BaseAlgolia implements \ArrayAccess
      {
          $url = \PMVC\plug('url')->getUrl(INDEX_PATH);
          $url->set($this->groupId);
-         $url->query['query']=$query;
+         $url->query = [
+            'query'=>$query,
+            'advancedSyntax'=>true
+         ];
          $result = \PMVC\plug('algolia')->request(
             $url
          );
-         var_dump($result);
+         return $result;
      }
 
 
     /**
-     * ContainsKey
+     * Exists
      *
      * @param string $k key 
      *
@@ -113,10 +119,14 @@ class BaseAlgolia implements \ArrayAccess
      */
     public function offsetExists($k)
     {
-        if (empty($this->groupId)) {
-            return;
-        }
-        return $this->db->hexists($this->groupId, $k);
+        $url = \PMVC\plug('url')->getUrl(INDEX_PATH);
+        $url->set($this->groupId)
+            ->set($k)
+            ->set('?attributes=objectID');
+        $result = \PMVC\plug('algolia')->request(
+            $url
+        );
+        return 404 !== $result->code;
     }
 
     /**

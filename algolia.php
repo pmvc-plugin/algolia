@@ -51,11 +51,12 @@ class algolia extends \IdOfThings\GetDb
         );
         $curl  = \PMVC\plug('curl');
         $curl->get((string)$url,function($r) use (&$respond, $url){
-            if (400 > $r->code) {
-               $respond = (object)array(
-                'header'=>$r->header,
-                'body'=>\PMVC\fromJson($r->body)
-               );
+            if (500 > $r->code) {
+               $respond = (object)[
+                'header' => $r->header,
+                'body'   => \PMVC\fromJson($r->body),
+                'code'   => $r->code
+               ];
             } else {
                 return !trigger_error('Get result error. Error Code:'.$r->code. ' url: '.$url);
             }

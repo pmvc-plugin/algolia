@@ -7,18 +7,18 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\algolia';
 \PMVC\l(__DIR__.'/src/BaseAlgolia.php');
 
 /**
- * @parameters string ALGOLIA_APP
- * @parameters string ALGOLIA_KEY
+ * @parameters string app 
+ * @parameters string key 
  */
 class algolia extends \IdOfThings\GetDb
 {
     public function init()
     {
-        if (!isset($this['ALGOLIA_APP'])) {
-            $this['ALGOLIA_APP'] = \PMVC\getOption('ALGOLIA_APP');
+        if (!isset($this['app'])) {
+            $this['app'] = \PMVC\getOption('ALGOLIA_APP');
         }
-        if (!isset($this['ALGOLIA_KEY'])) {
-            $this['ALGOLIA_KEY'] = \PMVC\getOption('ALGOLIA_KEY');
+        if (!isset($this['key'])) {
+            $this['key'] = \PMVC\getOption('ALGOLIA_KEY');
         }
     }
 
@@ -34,7 +34,7 @@ class algolia extends \IdOfThings\GetDb
 
     public function getBaseUrl()
     {
-        return 'https://'.$this['ALGOLIA_APP'].'.algolia.net/1';
+        return 'https://'.$this['app'].'.algolia.net/1';
     }
 
     public function request($url, $params=[])
@@ -42,8 +42,8 @@ class algolia extends \IdOfThings\GetDb
         $respond = null;
         $url->set($this->getBaseUrl());
         $header = [
-            'X-Algolia-Application-Id: '.$this['ALGOLIA_APP'],
-            'X-Algolia-API-Key: '.$this['ALGOLIA_KEY']
+            'X-Algolia-Application-Id: '.$this['app'],
+            'X-Algolia-API-Key: '.$this['key']
         ];
         $params[CURLOPT_HTTPHEADER] = array_merge(
             \PMVC\value($params,[CURLOPT_HTTPHEADER],[]),

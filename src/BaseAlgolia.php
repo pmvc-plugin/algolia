@@ -93,16 +93,27 @@ class BaseAlgolia implements \ArrayAccess
      }
 
      /**
+      * Update
+      */
+     public function update($k, $v)
+     {
+            return $this->replace($k,$v);
+     }
+
+     /**
       * Search
       */
-     public function search($query)
+     public function search($query, array $params=[])
      {
          $url = \PMVC\plug('url')->getUrl(INDEX_PATH);
          $url->set($this->groupId);
-         $url->query = [
-            'query'=>$query,
-            'advancedSyntax'=>true
+         $default = [
+            'analytics'=>false
          ];
+         if (!empty($query)) {
+            $default['query'] = $query;
+         }
+         $url->query = array_replace($default, $params);
          $result = \PMVC\plug('algolia')->request(
             $url
          );
@@ -150,9 +161,10 @@ class BaseAlgolia implements \ArrayAccess
             $result = \PMVC\plug('algolia')->request(
                 $url
             );
-            $result = $result->body->doc;
-            if (is_object($result)) {
-                $result = (array)$result;
+            if (!isset($result->body->doc)) {
+                return null;
+            } else {
+                $result = (array)$result->body->doc;
             }
         }
         return $result;

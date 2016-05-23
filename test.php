@@ -2,7 +2,7 @@
 namespace PMVC\PlugIn\algolia;
 use PHPUnit_Framework_TestCase;
 
-\PMVC\Load::plug(['dotenv'=>null]);
+\PMVC\Load::plug();
 \PMVC\addPlugInFolders(['../']);
 
 class AlgoliaTest extends PHPUnit_Framework_TestCase

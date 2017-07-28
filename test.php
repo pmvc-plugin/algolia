@@ -8,6 +8,13 @@ use PHPUnit_Framework_TestCase;
 class AlgoliaTest extends PHPUnit_Framework_TestCase
 {
     private $_plug = 'algolia';
+
+    function setup()
+    {
+        \PMVC\unplug($this->_plug);
+        \PMVC\plug($this->_plug, ['app'=>'fakeApp', 'key'=>'fakeKey']);
+    }
+
     function testPlugin()
     {
         ob_start();

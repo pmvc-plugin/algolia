@@ -10,7 +10,7 @@ class BaseAlgolia implements \ArrayAccess
      */
     protected $groupId;
     /**
-     * SSDB instance
+     * Algolia instance
      */
     public $db;
 
@@ -71,12 +71,10 @@ class BaseAlgolia implements \ArrayAccess
      */
      public function replace($k, $v)
      {
-        if (is_null($k)) {
-            $k = \PMVC\plug('guid')->gen();
-        }
-        $url = \PMVC\plug('url')->getUrl(INDEX_PATH);
-        $url->set($this->groupId);
-        $url->set($k);
+        $url = \PMVC\plug('url')
+            ->getUrl(INDEX_PATH)
+            ->set($this->groupId)
+            ->set($k);
         $doc = ['doc'=>$v];
         if (isset($v['_geoloc'])) {
             $doc['_geoloc'] = $v['_geoloc'];
@@ -93,6 +91,18 @@ class BaseAlgolia implements \ArrayAccess
      }
 
      /**
+      * Insert
+      * @see https://www.algolia.com/doc/rest-api/search/#add-an-object-without-id
+      */
+     public function insert($v, $k=null)
+     {
+        if (is_null($k)) {
+            $k = \PMVC\plug('guid')->gen();
+        }
+        return $this->replace($k,$v);
+     }
+
+     /**
       * Update
       */
      public function update($k, $v)
@@ -105,8 +115,9 @@ class BaseAlgolia implements \ArrayAccess
       */
      public function search($query, array $params=[])
      {
-         $url = \PMVC\plug('url')->getUrl(INDEX_PATH);
-         $url->set($this->groupId);
+         $url = \PMVC\plug('url')
+            ->getUrl(INDEX_PATH)
+            ->set($this->groupId);
          $default = [
             'analytics'=>false
          ];
@@ -130,8 +141,9 @@ class BaseAlgolia implements \ArrayAccess
      */
     public function offsetExists($k)
     {
-        $url = \PMVC\plug('url')->getUrl(INDEX_PATH);
-        $url->set($this->groupId)
+        $url = \PMVC\plug('url')
+            ->getUrl(INDEX_PATH)
+            ->set($this->groupId)
             ->set($k)
             ->set('?attributes=objectID');
         $result = \PMVC\plug('algolia')->request(
@@ -149,15 +161,16 @@ class BaseAlgolia implements \ArrayAccess
      */
     public function offsetGet($k=null)
     {
-        $url = \PMVC\plug('url')->getUrl(INDEX_PATH);
-        $url->set($this->groupId);
         $result = null;
         if (is_null($k)) {
-	    $arr = $this->db->hgetall($this->groupId);
+            return !trigger_error('Not support get all.');
         } elseif (is_array($k)) { 
-            $arr = $this->db->multi_hget($this->groupId, $k);
+            return !trigger_error('Not support get multi.');
         } else {
-            $url->set($k);
+            $url = \PMVC\plug('url')
+                ->getUrl(INDEX_PATH)
+                ->set($this->groupId)
+                ->set($k);
             $result = \PMVC\plug('algolia')->request(
                 $url
             );
@@ -181,7 +194,7 @@ class BaseAlgolia implements \ArrayAccess
     public function offsetSet($k, $v=null)
     {
         if (is_null($k) || !isset($this[$k])) {
-            return $this->replace($k, $v);
+            return $this->insert($k, $v);
         } else {
             return $this->update($k, $v);
         }

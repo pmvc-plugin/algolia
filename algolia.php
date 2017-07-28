@@ -1,6 +1,8 @@
 <?php
 namespace PMVC\PlugIn\algolia;
 
+use IdOfThings\GetDb;
+
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\algolia';
 
 \PMVC\initPlugin(['guid'=>null]);
@@ -10,16 +12,17 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\algolia';
  * @parameters string app 
  * @parameters string key 
  */
-class algolia extends \IdOfThings\GetDb
+class algolia extends GetDb
 {
     public function init()
     {
         if (!isset($this['app'])) {
-            $this['app'] = \PMVC\getOption('ALGOLIA_APP');
+            return !trigger_error('Not set algolia app.');
         }
         if (!isset($this['key'])) {
-            $this['key'] = \PMVC\getOption('ALGOLIA_KEY');
+            return !trigger_error('Not set algolia key.');
         }
+        $this->setConnected(true);
     }
 
     public function getBaseDb()

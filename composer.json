@@ -19,5 +19,8 @@
         "pmvc-plugin/dotenv": "*"
 
     },
+    "require-dev": {
+        "pmvc-plugin/unit": "*"
+    },
     "minimum-stability": "dev"
 }

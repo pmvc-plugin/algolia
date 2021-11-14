@@ -1,15 +1,14 @@
 <?php
 namespace PMVC\PlugIn\algolia;
-use PHPUnit_Framework_TestCase;
 
-\PMVC\Load::plug();
-\PMVC\addPlugInFolders(['../']);
+use PMVC\TestCase;
 
-class AlgoliaTest extends PHPUnit_Framework_TestCase
+
+class AlgoliaTest extends TestCase
 {
     private $_plug = 'algolia';
 
-    function setup()
+    function pmvc_setup()
     {
         \PMVC\unplug($this->_plug);
         \PMVC\plug($this->_plug, ['app'=>'fakeApp', 'key'=>'fakeKey']);
@@ -21,16 +20,15 @@ class AlgoliaTest extends PHPUnit_Framework_TestCase
         print_r(\PMVC\plug($this->_plug));
         $output = ob_get_contents();
         ob_end_clean();
-        $this->assertContains($this->_plug,$output);
+        $this->haveString($this->_plug,$output);
     }
 
     function testConnect()
     {
         $algo = \PMVC\plug($this->_plug); 
-        $db = $algo->getDb('parking');
-        //$db[]=['objectID'=>'def'];
-        //$db[]='abc';
-        $db->search('d +ef');
+        $db = $algo->getModel('parking');
+        $res = $db->search('d +ef');
+        $this->assertTrue(!empty($res));
     }
 
     function testIsset()
@@ -43,7 +41,7 @@ class AlgoliaTest extends PHPUnit_Framework_TestCase
             'code'=>200
         ];
         $algo = \PMVC\plug($this->_plug); 
-        $db = $algo->getDb('parking');
+        $db = $algo->getModel('parking');
         $this->assertTrue(isset($db['fake']));
         $curl['r'] = [
             'code'=>404

@@ -5,7 +5,7 @@ include_once('./vendor/autoload.php');
 \PMVC\addPlugInFolders(['../']);
 
 $algo = \PMVC\plug('algolia');
-$park = $algo->getdb('parking');
+$park = $algo->getModel('parking');
 
 $result = $park->search('"'.\PMVC\getOption('QUERY').'"',[
     'minProximity'=>1,

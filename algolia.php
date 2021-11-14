@@ -1,7 +1,7 @@
 <?php
 namespace PMVC\PlugIn\algolia;
 
-use IdOfThings\GetDb;
+use IdOfThings\GetModel;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\algolia';
 
@@ -12,7 +12,7 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\algolia';
  * @parameters string app 
  * @parameters string key 
  */
-class algolia extends GetDb
+class algolia extends GetModel
 {
     public function init()
     {
@@ -25,7 +25,7 @@ class algolia extends GetDb
         $this->setConnected(true);
     }
 
-    public function getBaseDb()
+    public function getBaseModel()
     {
         return __NAMESPACE__.'\BaseAlgolia';
     }

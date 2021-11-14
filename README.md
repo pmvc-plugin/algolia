@@ -1,6 +1,6 @@
 [![Latest Stable Version](https://poser.pugx.org/pmvc-plugin/algolia/v/stable)](https://packagist.org/packages/pmvc-plugin/algolia) 
 [![Latest Unstable Version](https://poser.pugx.org/pmvc-plugin/algolia/v/unstable)](https://packagist.org/packages/pmvc-plugin/algolia) 
-[![Build Status](https://travis-ci.org/pmvc-plugin/algolia.svg?branch=master)](https://travis-ci.org/pmvc-plugin/algolia)
+[![CircleCI](https://circleci.com/gh/pmvc-plugin/algolia/tree/master.svg?style=svg)](https://circleci.com/gh/pmvc-plugin/algolia/tree/master)
 [![License](https://poser.pugx.org/pmvc-plugin/algolia/license)](https://packagist.org/packages/pmvc-plugin/algolia)
 [![Total Downloads](https://poser.pugx.org/pmvc-plugin/algolia/downloads)](https://packagist.org/packages/pmvc-plugin/algolia) 
 
